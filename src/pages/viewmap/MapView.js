@@ -1,0 +1,60 @@
+import react, { useContext } from 'react'
+import { Link, useNavigate, Navigate } from "react-router-dom"
+import { useAuth } from '../../context/AuthContext'
+import { Header, Map, Sidebar, Filter } from "../../Components/map"
+import { MainContext } from "../../context/MainContext"
+
+const MapView = () => {
+    // Destructuring all neccessary states from the main context
+    const { places, coordinates, setCoordinates, setBounds, filteredPlaces } = useContext(MainContext);
+    const navigate = useNavigate();
+
+    const { currentUser } = useAuth();
+
+  if (!currentUser) {
+    return <Navigate to="/Login" />;
+  }
+
+    return (
+        <div className="w-full flex flex-wrap-reverse md:flex-nowrap md:h-screen">
+            <div className="h-auto md:h-full w-full md:w-[35%] lg:w-[23%] md:overflow-y-scroll">
+                <div className="w-full text-center">
+                    {/* Close Map View Button */}
+                    <button
+                id="go"
+                className=' h-12 lg:h-14 lg:w-36 w-48 mt-5'
+                onClick={() => navigate("/")}
+              >
+               <p>Close Map View</p>
+              </button>
+                  
+                    {/* --- */}
+                </div>
+
+                {/* Sidebar Component Rendered with filteredPlaces (Determined by place type and rating from filter) if found or all places passed in prop to 'places' */}
+                <Sidebar places={filteredPlaces ? filteredPlaces : places} />
+                {/* --- */}
+            </div>
+            <div className="h-[50vh] md:h-full w-full md:w-[65%] lg:w-[79%] relative">
+                {/* Map Header Component, with setCoordinate State passed in as props */}
+                <Header setCoordinates={setCoordinates} />
+                {/* --- */}
+
+                {/* Map Component with 'setBounds', 'setCoordinates', 'coordinates' and either 'filteredPlaces' or 'places' states passed in as props to component  */}
+                <Map
+                    setBounds={setBounds}
+                    setCoordinates={setCoordinates}
+                    coordinates={coordinates}
+                    places={filteredPlaces ? filteredPlaces : places}
+                />
+                {/* --- */}
+
+                {/* Map Filter Component - renders componet to set place type and rating */}
+                <Filter />
+                {/* --- */}
+            </div>
+        </div>
+    );
+}
+
+export default MapView;

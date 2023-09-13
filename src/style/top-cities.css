@@ -1,0 +1,20 @@
+.card-parent:hover .card-child,
+  .card-parent:focus .card-child {
+    -ms-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+  
+  
+  .card-parent:hover .card-child:before,
+  .card-parent:focus .card-child:before {
+
+    background-color: rgba(52, 73, 94, 0.5);
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+  }
+  
